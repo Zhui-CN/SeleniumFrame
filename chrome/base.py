@@ -67,6 +67,7 @@ class Chrome:
     def execute_script(self, script, cla=None, finish_seconds=0):
         self.driver.execute_script(script, cla) if cla else self.driver.execute_script(script)
         time.sleep(finish_seconds)
+        return True
 
     def _get_element_of_frame(self, ele: ElementConfig):
 
@@ -129,10 +130,13 @@ class Chrome:
             {"name": key, "value": value.strip(), "path": "/", "domain": ".{}".format(domain)}
             for key, value in cookies.items()
         ]
-        self.driver.delete_all_cookies()
-        time.sleep(0.5)
+        # self.driver.delete_all_cookies()
         for cookie in cookies:
             self.driver.add_cookie(cookie)
+        return True
+
+    def get_cookies(self):
+        return self._driver.get_cookies()
 
     def get(self, url):
         self.driver.get(url)
